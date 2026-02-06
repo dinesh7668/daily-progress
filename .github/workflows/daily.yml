@@ -2,7 +2,7 @@ name: Daily Progress Update
 
 on:
   schedule:
-    - cron: '30 18 * * *'   # Daily at ~12:00 AM IST
+    - cron: '30 18 * * *'   # ~12:00 AM IST
   workflow_dispatch:
 
 jobs:
@@ -13,16 +13,21 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Prepare daily log
+      - name: Update README with daily log
+        shell: bash
         run: |
           DATE=$(date '+%Y-%m-%d')
-          MESSAGE=$(shuf -n 1 <<EOF
-Practiced GitHub automation
-Worked on daily consistency
-Improved workflow understanding
-Learning and building habits
-EOF
+
+          MESSAGES=(
+            "Practiced GitHub automation"
+            "Worked on consistency"
+            "Improved workflow understanding"
+            "Learning and building habits"
+            "Maintained daily progress"
           )
+
+          INDEX=$((RANDOM % ${#MESSAGES[@]}))
+          MESSAGE=${MESSAGES[$INDEX]}
 
           if [ ! -f README.md ]; then
             echo "# Daily Progress Log" > README.md
@@ -36,5 +41,5 @@ EOF
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add README.md
-          git commit -m "Daily progress: $(date '+%Y-%m-%d')" || exit 0
+          git commit -m "Daily progress: $DATE" || exit 0
           git push

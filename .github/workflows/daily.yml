@@ -40,8 +40,8 @@ jobs:
         run: |
           DATE=$(date '+%Y-%m-%d')
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "dinesh7668"
+          git config user.email "dineshpal7668@gmail.com"
 
           git add README.md
           git commit -m "Daily progress: $DATE" || exit 0
